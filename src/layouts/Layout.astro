@@ -38,5 +38,27 @@ const {
   </head>
   <body>
     <slot />
+    <script>
+      document.addEventListener("click", async (event) => {
+        const link = (event.target as Element)?.closest?.(
+          'a[href^="mailto:"]',
+        ) as HTMLAnchorElement | null;
+        if (!link) return;
+
+        const address = link.href.replace(/^mailto:/, "").split("?")[0];
+        if (!navigator.clipboard) return;
+
+        try {
+          await navigator.clipboard.writeText(address);
+          const original = link.textContent;
+          link.textContent = "Copied!";
+          window.setTimeout(() => {
+            link.textContent = original;
+          }, 1600);
+        } catch {
+          // clipboard write can fail without permission; mailto: still attempts to open
+        }
+      });
+    </script>
   </body>
 </html>

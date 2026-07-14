@@ -7,7 +7,7 @@ export const profile = {
     projects: "#projects",
     resume: "/resume.pdf",
     github: "https://github.com/noah-stokes",
-    linkedin: "https://www.linkedin.com/in/noah-stokes/",
+    linkedin: "https://www.linkedin.com/in/noah-stokes-603109254/",
     email: "mailto:nstokes@uwaterloo.ca",
   },
 };

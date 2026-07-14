@@ -54,6 +54,11 @@ const thinkingLines = [
 </section>
 
 <script>
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+  window.scrollTo(0, 0);
+
   const intro = document.querySelector("[data-ai-intro]");
   const promptNode = intro?.querySelector("[data-prompt-text]");
   const chatInput = intro?.querySelector("[data-chat-input]");
