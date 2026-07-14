@@ -1,0 +1,38 @@
+---
+import { profile } from "../data/profile";
+
+const links = [
+  { label: "Email", href: profile.links.email },
+  { label: "GitHub", href: profile.links.github, external: true },
+  { label: "LinkedIn", href: profile.links.linkedin, external: true },
+  { label: "Resume", href: profile.links.resume },
+];
+---
+
+<section class="section contact-section" id="contact" aria-labelledby="contact-title">
+  <div class="contact-block">
+    <div>
+      <p class="section-kicker">Next Action</p>
+      <h2 id="contact-title">Start with the shortest useful message.</h2>
+      <p>
+        Noah is looking for teams building practical AI tools, full-stack product systems, and
+        automation workflows that move from messy requirements to reliable software.
+      </p>
+    </div>
+
+    <nav class="contact-actions" aria-label="Contact links">
+      {
+        links.map((link) => (
+          <a
+            class="action-link"
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noreferrer" : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</section>

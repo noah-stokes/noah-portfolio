@@ -1,0 +1,44 @@
+---
+import { profile } from "../data/profile";
+
+const actions = [
+  { label: "Projects", href: profile.links.projects },
+  { label: "Resume", href: profile.links.resume },
+  { label: "GitHub", href: profile.links.github, external: true },
+  { label: "LinkedIn", href: profile.links.linkedin, external: true },
+  { label: "Email", href: profile.links.email },
+];
+
+const metadata = ["Waterloo CS", "Incoming CSC AI Analyst", "Rails + PostgreSQL", "AI automation"];
+---
+
+<section class="hero section" aria-labelledby="hero-title">
+  <div class="hero__content">
+    <p class="section-kicker">Generated Summary</p>
+    <h1 id="hero-title">{profile.name}</h1>
+    <p class="hero__lede">{profile.summary}</p>
+
+    <ul class="hero-meta" aria-label="Profile metadata">
+      {
+        metadata.map((item) => (
+          <li>{item}</li>
+        ))
+      }
+    </ul>
+
+    <nav class="hero-actions" aria-label="Primary links">
+      {
+        actions.map((action) => (
+          <a
+            class="action-link"
+            href={action.href}
+            target={action.external ? "_blank" : undefined}
+            rel={action.external ? "noreferrer" : undefined}
+          >
+            {action.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</section>

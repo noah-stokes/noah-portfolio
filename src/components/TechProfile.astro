@@ -1,0 +1,27 @@
+---
+import { techGroups } from "../data/profile";
+---
+
+<section class="section" aria-labelledby="tech-title">
+  <div class="section-heading">
+    <p class="section-kicker">Technical Profile</p>
+    <h2 id="tech-title">Tools grouped by purpose</h2>
+  </div>
+
+  <div class="tech-grid">
+    {
+      techGroups.map((group) => (
+        <article class="tech-group">
+          <h3>{group.label}</h3>
+          <ul class="pill-list">
+            {
+              group.items.map((item) => (
+                <li>{item}</li>
+              ))
+            }
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>

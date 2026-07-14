@@ -1,0 +1,137 @@
+---
+const thinkingLines = [
+  "Reading LinkedIn profile, 500+ connections is impressive...",
+  "Deciding whether McDonalds experience is relevant..",
+  "Separating GitHub commits between shipped work and good intentions...",
+  "Generating the full Noah Stokes brief...",
+];
+---
+
+<section
+  class="ai-intro"
+  data-ai-intro
+  data-stage="chat"
+  aria-label="Generating Noah Stokes portfolio"
+  aria-live="polite"
+>
+  <div class="intro-stage intro-stage--chat" data-chat-stage>
+    <div class="chat-landing">
+      <p class="chat-product">TalkGPT</p>
+      <p class="chat-subtitle">Ask anything</p>
+
+      <div class="chat-input" data-chat-input aria-label="Prompt">
+        <span class="chat-input__text" data-prompt-text></span>
+        <span class="chat-cursor" aria-hidden="true"></span>
+        <span class="chat-send" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img">
+            <path d="M5 12h13" />
+            <path d="m13 7 5 5-5 5" />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="intro-stage intro-stage--thinking" data-thinking-stage>
+    <div class="thinking-stack" aria-label="Generation status">
+      {
+        thinkingLines.map((line) => (
+          <p class="thinking-line" data-thinking-line aria-hidden="true">
+            {line}
+          </p>
+        ))
+      }
+    </div>
+
+    <div class="thinking-indicator" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="intro-wipe" aria-hidden="true"></div>
+</section>
+
+<script>
+  const intro = document.querySelector("[data-ai-intro]");
+  const promptNode = intro?.querySelector("[data-prompt-text]");
+  const chatInput = intro?.querySelector("[data-chat-input]");
+  const thinkingNodes = Array.from(
+    intro?.querySelectorAll("[data-thinking-line]") ?? [],
+  );
+  const prompt = "Who is Noah Stokes? ... Make no mistakes.";
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const wipeDuration = 820;
+  const fadeDuration = 720;
+
+  const sleep = (duration) =>
+    new Promise((resolve) => window.setTimeout(resolve, duration));
+
+  const setStage = (stage) => {
+    if (intro) intro.dataset.stage = stage;
+  };
+
+  const completeIntro = () => {
+    document.documentElement.dataset.generated = "true";
+    setStage("done");
+  };
+
+  const runContentWipe = async () => {
+    if (!intro) return;
+
+    setStage("wipe-to-content");
+    intro.classList.remove("is-wiping");
+    void intro.offsetWidth;
+    intro.classList.add("is-wiping");
+
+    await sleep(wipeDuration / 2);
+    completeIntro();
+    await sleep(wipeDuration / 2 + 900);
+
+    intro.remove();
+  };
+
+  const runIntro = async () => {
+    if (!intro || !promptNode) return;
+
+    if (reduceMotion) {
+      promptNode.textContent = prompt;
+      completeIntro();
+      intro.remove();
+      return;
+    }
+
+    await sleep(520);
+
+    for (let index = 0; index < prompt.length; index += 1) {
+      promptNode.textContent += prompt[index];
+      await sleep(index % 5 === 0 ? 62 : 44);
+    }
+
+    chatInput?.classList.add("is-ready");
+    await sleep(680);
+
+    setStage("thinking");
+    await sleep(fadeDuration + 220);
+
+    for (let index = 0; index < thinkingNodes.length; index += 1) {
+      const currentNode = thinkingNodes[index];
+      const previousNode = thinkingNodes[index - 1];
+
+      previousNode?.classList.remove("is-active");
+      previousNode?.classList.add("is-past");
+      currentNode.classList.add("is-visible", "is-active");
+      currentNode.setAttribute("aria-hidden", "false");
+
+      await sleep(index === thinkingNodes.length - 1 ? 1180 : 900);
+    }
+
+    await sleep(560);
+    await runContentWipe();
+  };
+
+  runIntro();
+</script>

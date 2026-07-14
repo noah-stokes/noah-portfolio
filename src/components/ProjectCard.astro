@@ -1,0 +1,42 @@
+---
+interface Project {
+  name: string;
+  status: string;
+  description: string;
+  stack: string[];
+  system: {
+    input: string;
+    process: string;
+    output: string;
+  };
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-card">
+  <div class="project-card__header">
+    <h3>{project.name}</h3>
+    <span class="status-badge">{project.status}</span>
+  </div>
+
+  <p>{project.description}</p>
+
+  <div class="system-trace" aria-label={`System summary for ${project.name}`}>
+    <span>{project.system.input}</span>
+    <span>{project.system.process}</span>
+    <span>{project.system.output}</span>
+  </div>
+
+  <ul class="pill-list" aria-label={`${project.name} technology stack`}>
+    {
+      project.stack.map((item) => (
+        <li>{item}</li>
+      ))
+    }
+  </ul>
+</article>

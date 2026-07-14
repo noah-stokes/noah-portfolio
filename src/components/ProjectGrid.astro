@@ -1,0 +1,19 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+import { projects } from "../data/profile";
+---
+
+<section class="section" id="projects" aria-labelledby="projects-title">
+  <div class="section-heading">
+    <p class="section-kicker">Highlighted Builds</p>
+    <h2 id="projects-title">Selected systems and product experiments</h2>
+  </div>
+
+  <div class="project-grid">
+    {
+      projects.map((project) => (
+        <ProjectCard project={project} />
+      ))
+    }
+  </div>
+</section>
