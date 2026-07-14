@@ -26,4 +26,4 @@ src/
   styles/        # global CSS + Tailwind
 ```
 
-Content lives in `src/data/profile.ts`. Edit that file to update projects, experience, or links — components read from it, so no markup changes needed.
+Content lives in `src/data/profile.ts`. Edit that file to update projects, experience, or links. components read from it, so no markup changes needed.
